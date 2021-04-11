@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import React, {Component, Fragment} from 'react';
-import {TouchableOpacity, Text, View} from 'react-native';
-import {shouldUpdate} from '../../../component-updater';
+import React, { Component, Fragment } from 'react';
+import { TouchableOpacity, Text, View } from 'react-native';
+import { shouldUpdate } from '../../../component-updater';
 import styleConstructor from './style';
 import Marking from '../marking';
 
@@ -30,7 +30,7 @@ export default class BasicDay extends Component {
 
   constructor(props) {
     super(props);
-    
+
     this.style = styleConstructor(props.theme);
   }
 
@@ -41,7 +41,7 @@ export default class BasicDay extends Component {
   onPress = () => {
     _.invoke(this.props, 'onPress', this.props.date);
   }
-  
+
   onLongPress = () => {
     _.invoke(this.props, 'onLongPress', this.props.date);
   }
@@ -57,8 +57,8 @@ export default class BasicDay extends Component {
   }
 
   shouldDisableTouchEvent() {
-    const {disableAllTouchEventsForDisabledDays} = this.props;
-    const {disableTouchEvent} = this.marking;
+    const { disableAllTouchEventsForDisabledDays } = this.props;
+    const { disableTouchEvent } = this.marking;
     let disableTouch = false;
 
     if (typeof disableTouchEvent === 'boolean') {
@@ -90,18 +90,18 @@ export default class BasicDay extends Component {
   }
 
   getContainerStyle() {
-    const {customStyles, selected, selectedColor} = this.props.marking;
+    const { customStyles, selected, selectedColor } = this.props.marking || {};
     const style = [this.style.base];
 
     if (selected) {
       style.push(this.style.selected);
       if (selectedColor) {
-        style.push({backgroundColor: selectedColor});
+        style.push({ backgroundColor: selectedColor });
       }
     } else if (this.isToday()) {
       style.push(this.style.today);
     }
-    
+
     //Custom marking type
     if (this.isCustom() && customStyles && customStyles.container) {
       if (customStyles.container.borderRadius === undefined) {
@@ -114,13 +114,13 @@ export default class BasicDay extends Component {
   }
 
   getTextStyle() {
-    const {customStyles, selected, selectedTextColor} = this.props.marking;
+    const { customStyles, selected, selectedTextColor } = this.props.marking || {};
     const style = [this.style.text];
 
     if (selected) {
       style.push(this.style.selectedText);
       if (selectedTextColor) {
-        style.push({color: selectedTextColor});
+        style.push({ color: selectedTextColor });
       }
     } else if (this.isDisabled()) {
       style.push(this.style.disabledText);
@@ -137,8 +137,8 @@ export default class BasicDay extends Component {
   }
 
   renderMarking() {
-    const {theme, markingType} = this.props;
-    const {selected, marked, dotColor, dots, periods} = this.marking;
+    const { theme, markingType } = this.props;
+    const { selected, marked, dotColor, dots, periods } = this.marking || {};
 
     return (
       <Marking
@@ -173,7 +173,7 @@ export default class BasicDay extends Component {
   }
 
   renderContainer() {
-    const {activeOpacity} = this.marking;
+    const { activeOpacity } = this.marking;
 
     return (
       <TouchableOpacity

@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
-import React, {Component} from 'react';
-import {shouldUpdate, extractComponentProps} from '../../component-updater';
-import {xdateToData} from '../../interface';
-import {SELECT_DATE_SLOT} from '../../testIDs';
+import React, { Component } from 'react';
+import { shouldUpdate, extractComponentProps } from '../../component-updater';
+import { xdateToData } from '../../interface';
+import { SELECT_DATE_SLOT } from '../../testIDs';
 import BasicDay from './basic';
 import PeriodDay from './period';
 
@@ -27,7 +27,7 @@ export default class Day extends Component {
   }
 
   getMarkingLabel() {
-    const {marking} = this.props;
+    const { marking } = this.props;
     let label = '';
 
     if (marking.accessibilityLabel) {
@@ -56,7 +56,7 @@ export default class Day extends Component {
   }
 
   getAccessibilityLabel = (day) => {
-    const {state} = this.props;
+    const { state } = this.props;
     const today = XDate.locales[XDate.defaultLocale].today;
     const isToday = state === 'today'; //TODO: check if 'day' equals 'today' and remove 'state' check
     const formatAccessibilityLabel = XDate.locales[XDate.defaultLocale].formatAccessibilityLabel;
@@ -70,7 +70,7 @@ export default class Day extends Component {
   };
 
   getDayComponent() {
-    const {dayComponent, markingType} = this.props;
+    const { dayComponent, markingType } = this.props;
 
     if (dayComponent) {
       return dayComponent;
@@ -79,19 +79,19 @@ export default class Day extends Component {
   }
 
   render() {
-    const {day} = this.props;
+    const { day } = this.props;
     const date = xdateToData(day);
     const Component = this.getDayComponent();
-    const dayProps = extractComponentProps(Component, this.props);
+    const dayProps = extractComponentProps(Day, this.props);
 
     return (
       <Component
-          {...dayProps}
-          date={date}
-          testID={`${SELECT_DATE_SLOT}-${date.dateString}`}
-          accessibilityLabel={this.getAccessibilityLabel(day)}
-        >
-          {date ? day.getDate() : day}
+        {...dayProps}
+        date={date}
+        testID={`${SELECT_DATE_SLOT}-${date.dateString}`}
+        accessibilityLabel={this.getAccessibilityLabel(day)}
+      >
+        {date ? day.getDate() : day}
       </Component>
     );
   }
